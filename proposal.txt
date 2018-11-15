@@ -2,7 +2,8 @@ CS102 - Final Project Proposal
 Evan Minor and Joshua Swick
 
 a. Brief Write-Up
-The purpose of this project is to create an application that will gather data on the weather forcast, and print it out to a file. The file will display readable data to the user based on the location the individual wants, as well as the on the day the individual wants.
+The purpose of this project is to create an application that will gather data on the weather forcast, and print it out to a file.
+The file will display readable data to the user based on the location the individual wants, as well as the on the day the individual wants.
 
 b. Which topic, minimum of 3
 This project will include nested loops, reading and witing to files, arrays, as well as many other aspects we have learned in class.
