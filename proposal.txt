@@ -2,10 +2,46 @@ CS102 - Final Project Proposal
 Evan Minor and Joshua Swick
 
 a. Brief Write-Up
+The purpose of this project is to create an application that will gather data on the weather forcast, and print it out to a file. The file will display readable data to the user based on the location the individual wants, as well as the on the day the individual wants.
 
 b. Which topic, minimum of 3
+This project will include nested loops, reading and witing to files, arrays, as well as many other aspects we have learned in class.
 
 c. Pseudocode
+Create the weather class
+  Create the main method
+  initiate the scanner
+    
+    while(true)
+      create location string
+      create date string
+
+
+      ask user for a location input
+      ask user for date input
 
 
 
+
+
+
+      for loop for first dimension of the array
+        for loop for second dimension of the array
+          array[i][j] = weather output
+
+      Ask the user if they would like to print the array to a file
+
+      if statement if the user does wish to print to a file
+      forloop to initatie print
+        second forloop for the other half of the array
+          array print statement
+      if user does not wish to print the file
+        continue
+
+      Ask the user if they would like to restart the program for a different weather location and date
+      if yes
+        loop back to the beginning of the statement
+      if no
+        end program
+  
+  
