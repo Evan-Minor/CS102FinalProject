@@ -1,48 +1,95 @@
 CS102 - Final Project Proposal
-Evan Minor and Joshua Swick
+
+PROGRAMMERS: Evan Minor and Joshua Swick
+CLASS: CS102
+ASSIGNMENT: Final Project - Proposal
+INSTRUCTOR: Chris Harris
+SUBMISSION DATE: 11/15/2018
+
+DESCRIPTION:
+Proposal for our final project.
+
+--
 
 a. Brief Write-Up
-The purpose of this project is to create an application that will gather data on the weather forcast, and print it out to a file.
-The file will display readable data to the user based on the location the individual wants, as well as the on the day the individual wants.
+
+    The purpose of this project is to create a weather application, using the OpenWeatherMap API (https://openweathermap.org/api).
+    Based on user input, this app will retrieve and display current weather data, or a five day forecast. The user will then be
+    invited to save the output to a text file.
+
+    INPUTS
+        Option of current or 5 day forecast - Ex. Current
+        Location - Ex. London, UK
 
 b. Which topic, minimum of 3
-This project will include nested loops, reading and witing to files, arrays, as well as many other aspects we have learned in class.
+
+    1. Nested loops
+    2. Reading and witing to files
+    3. Arrays, as well as many other aspects we have learned in class.
 
 c. Pseudocode
-Create the weather class
-  Create the main method
-  initiate the scanner
-    
-    while(true)
-      create location string
-      create date string
 
+FinalProjectWeatherApp:
 
-      ask user for a location input
-      ask user for date input
+    main()
+        // Welcome user
+        print("Welcome")
 
+        // Inititalize Scanner
+        _scanner = new Scanner()
 
+        // User Interface Loop
+        while(true):
 
+            // Display options and prompt for input
+            while(true):
+                Print("Current weather, 5 day forcast, or exit")
+                option = input()
+                if(good input):
+                    break;
 
+            // If current weather or forcast prompt for location
+            Prompt for location
+            location = input()
+            
+            // Format and send http request
+            url = api/ + option
+            params = location
+            response = http.get(url,params)
 
+            // Parse response
+            // If "Current Weather" response
+            if(option = "current")
+                results[] = parse(response)
 
-      for loop for first dimension of the array
-        for loop for second dimension of the array
-          array[i][j] = weather output
+                // Format and print results
+                for(result in results[])
+                    print(result)
 
-      Ask the user if they would like to print the array to a file
+                // Ask the user if they would like to print results to a file
+                // if the user does wish to print to a file
+                if yes:
+                    for(result in results[])
+                        file.print(result)
 
-      if statement if the user does wish to print to a file
-      forloop to initatie print
-        second forloop for the other half of the array
-          array print statement
-      if user does not wish to print the file
-        continue
+            // If "Weather Forecast" response
+            else if(option = "forecast")
+                results[][] = parse(response)
 
-      Ask the user if they would like to restart the program for a different weather location and date
-      if yes
-        loop back to the beginning of the statement
-      if no
-        end program
-  
-  
+                // Format and print results
+                for(result in results[][])
+                    print(result)
+
+                // Ask the user if they would like to print results to a file
+                // if the user does wish to print to a file
+                if yes:
+                    for(result in results[][])
+                        file.print(result)
+      
+            // Exit option
+            else if(option = "exit")
+                System.exit(0)
+
+            // Bad input
+            else
+                print("Bad input, please try again.")
