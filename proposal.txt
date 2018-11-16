@@ -25,7 +25,7 @@ b. Which topic, minimum of 3
 
     1. Nested loops
     2. Reading and witing to files
-    3. Arrays, as well as many other aspects we have learned in class.
+    3. Arrays
 
 c. Pseudocode
 
