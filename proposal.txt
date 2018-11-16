@@ -24,8 +24,9 @@ a. Brief Write-Up
 b. Which topic, minimum of 3
 
     1. Nested loops
-    2. Reading and witing to files
+    2. Writing to files
     3. Arrays
+    4. Recursion for formatting
 
 c. Pseudocode
 
