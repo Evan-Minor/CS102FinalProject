@@ -61,9 +61,10 @@ public class FinalProjectWeatherApp
                 String location = _scanner.nextLine();
 
                 /* Current Weather */
-                if(option == 1)
+                if(optionSelected == 1)
                 {
                     String response = currentWeather(location);
+                    System.out.println(response);
 
                     // results[] = parse(response)
 
@@ -79,9 +80,9 @@ public class FinalProjectWeatherApp
                 }
 
                 /* 5 Day Forecast */
-                else if(optionSelected = 2)
+                else if(optionSelected == 2)
                 {
-                    String response = forecast(location);
+                    //String response = forecast(location);
 
                     // results[][] = parse(response)
 
@@ -125,20 +126,29 @@ public class FinalProjectWeatherApp
         String query = "?q=" + URLEncoder.encode((location), "UTF-8");
 
         String requestUrlFull = apiBaseUrl + apiEndpointUrl + query + apiKey;
-        System.out.println(requestUrlFull);
+        //System.out.println(requestUrlFull);
 
+        // Create HTTP client and build request
         HttpClient client = HttpClient.newHttpClient();
         HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(requestUrlFull))
             .header("Content-Type", "application/json")
             .build();
 
-        HttpResponse<String> response =
-            client.send(request, BodyHandlers.ofString());
-        System.out.println(response.statusCode());
-        System.out.println(response.body());
+        // Attempt request
+        String currentWeather = "";
+        try
+        {
+            HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+            //System.out.println(response.statusCode());
+            //System.out.println(response.body());
 
-        return response.body();
-        
+            currentWeather = response.body();
+        }
+        catch(Exception error){
+            System.out.println("Request failed. Please try again later.");
+        }
+
+        return currentWeather;
     }
 }
