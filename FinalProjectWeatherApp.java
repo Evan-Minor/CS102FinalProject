@@ -60,42 +60,47 @@ public class FinalProjectWeatherApp
                 System.out.print("\nEnter a location: ");
                 String location = _scanner.nextLine();
 
-                String response = currentWeather(location);
+                /* Current Weather */
+                if(option == 1)
+                {
+                    String response = currentWeather(location);
+
+                    // results[] = parse(response)
+
+                    // // Format and print results
+                    // for(result in results[])
+                    //     print(result)
+
+                    // // Ask the user if they would like to print results to a file
+                    // // if the user does wish to print to a file
+                    // if yes:
+                    //     for(result in results[])
+                    //         file.print(result)
+                }
+
+                /* 5 Day Forecast */
+                else if(optionSelected = 2)
+                {
+                    String response = forecast(location);
+
+                    // results[][] = parse(response)
+
+                    // // Format and print results
+                    // for(int r = 0; r in results[][])
+                    // {
+                    //     System.out.println(result);
+                    // }
+
+                    // // Ask the user if they would like to print results to a file
+                    // // if the user does wish to print to a file
+                    // if(yes)
+                    // {
+                    //     for(result in results[][])
+                    //         file.print(result)
+                    // }
+        
+                }
             }
-
-            // /* Current Weather */
-            // if(option == 1)
-            // {
-            //     results[] = parse(response)
-
-            //     // Format and print results
-            //     for(result in results[])
-            //         print(result)
-
-            //     // Ask the user if they would like to print results to a file
-            //     // if the user does wish to print to a file
-            //     if yes:
-            //         for(result in results[])
-            //             file.print(result)
-            // }
-
-            // /* 5 Day Forecast */
-            // else if(optionSelected = 2)
-            // {
-            //     results[][] = parse(response)
-
-            //     // Format and print results
-            //     for(int r = 0; r in results[][])
-            //     {
-            //         System.out.println(result);
-            //     }
-
-            //     // Ask the user if they would like to print results to a file
-            //     // if the user does wish to print to a file
-            //     if yes:
-            //         for(result in results[][])
-            //             file.print(result)
-            // }
 
             // Exit option
             else if(optionSelected == 3)
