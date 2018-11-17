@@ -17,14 +17,18 @@
 // Standard API
 import java.util.*;
 import java.io.*;
-import java.net.*;
 
-// JSON Parser
-//import org.json.JSONObject;
+import java.net.*;
+import java.net.http.HttpClient; //https://openjdk.java.net/groups/net/httpclient/intro.html
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
+import java.net.http.HttpResponse.*;
+import java.net.URLEncoder;
+
 
 public class FinalProjectWeatherApp
 {
-    public static void main(String[] args) throws IOException
+    public static void main(String[] args) throws Exception
     {
         // Welcome user
         System.out.println("\nWelcome to Evan and Eli's Weather App!");
@@ -55,6 +59,8 @@ public class FinalProjectWeatherApp
             {
                 System.out.print("\nEnter a location: ");
                 String location = _scanner.nextLine();
+
+                String response = currentWeather(location);
             }
 
             // /* Current Weather */
@@ -103,5 +109,31 @@ public class FinalProjectWeatherApp
                 System.out.println("\nBad input, please try again.");
             }
         }
+    }
+
+    public static String currentWeather(String location) throws Exception
+    {
+        String apiKey = "&APPID=238800e84194ea5fd444c1a1d82b9fe8";
+        String apiBaseUrl = "https://api.openweathermap.org/data/2.5";
+
+        String apiEndpointUrl = "/weather";
+        String query = "?q=" + URLEncoder.encode((location), "UTF-8");
+
+        String requestUrlFull = apiBaseUrl + apiEndpointUrl + query + apiKey;
+        System.out.println(requestUrlFull);
+
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+            .uri(URI.create(requestUrlFull))
+            .header("Content-Type", "application/json")
+            .build();
+
+        HttpResponse<String> response =
+            client.send(request, BodyHandlers.ofString());
+        System.out.println(response.statusCode());
+        System.out.println(response.body());
+
+        return response.body();
+        
     }
 }
