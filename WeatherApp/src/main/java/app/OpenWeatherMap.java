@@ -23,20 +23,25 @@ import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
 
+// JSON Parser
+import org.json.JSONObject;
+
 public class OpenWeatherMap
 {
     private String urlBase = "https://api.openweathermap.org/data/2.5";
     private String apiKey = "238800e84194ea5fd444c1a1d82b9fe8";
 
-    public String current() throws com.mashape.unirest.http.exceptions.UnirestException
+    public String current(String location) throws com.mashape.unirest.http.exceptions.UnirestException
     {
         String endpoint = "/weather";
 
         HttpResponse<JsonNode> weatherResponse = Unirest.get(urlBase+endpoint)
             .header("accept", "application/json")
             .queryString("APPID", apiKey)
-            .queryString("q", "Greeley")
+            .queryString("q", location)
             .asJson();
+
+        JSONObject weatherJSON = weatherResponse.getBody().getObject();
 
         String weather = "";
 
