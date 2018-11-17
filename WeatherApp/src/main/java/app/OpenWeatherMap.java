@@ -18,15 +18,27 @@
 import java.util.*;
 
 // HTTP Request Client - http://unirest.io/java.html
+import com.mashape.unirest.http.HttpResponse;
+import com.mashape.unirest.http.JsonNode;
+import com.mashape.unirest.http.Unirest;
+import com.mashape.unirest.http.exceptions.UnirestException;
 
 public class OpenWeatherMap
 {
     private String urlBase = "https://api.openweathermap.org/data/2.5";
-    private String apiKey = "APPID=238800e84194ea5fd444c1a1d82b9fe8";
+    private String apiKey = "238800e84194ea5fd444c1a1d82b9fe8";
 
-    public String current()
+    public String current() throws com.mashape.unirest.http.exceptions.UnirestException
     {
         String endpoint = "/weather";
+
+        HttpResponse<JsonNode> weatherResponse = Unirest.get(urlBase+endpoint)
+            .header("accept", "application/json")
+            .queryString("APPID", apiKey)
+            .queryString("q", "Greeley")
+            .asJson();
+
+        String weather = "";
 
         return weather;
 
@@ -35,6 +47,8 @@ public class OpenWeatherMap
     public String forecast()
     {
         String endpoint = "/forecast";
+
+        String forecast = "";
 
         return forecast;
     }
