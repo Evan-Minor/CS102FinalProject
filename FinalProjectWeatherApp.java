@@ -123,10 +123,9 @@ public class FinalProjectWeatherApp
         String apiBaseUrl = "https://api.openweathermap.org/data/2.5";
 
         String apiEndpointUrl = "/weather";
-        String query = "?q=" + URLEncoder.encode((location), "UTF-8");
-
+        // Encode query for proper URL format
+        String query = "?q=" + URLEncoder.encode((location), "UTF-8"); 
         String requestUrlFull = apiBaseUrl + apiEndpointUrl + query + apiKey;
-        //System.out.println(requestUrlFull);
 
         // Create HTTP client and build request
         HttpClient client = HttpClient.newHttpClient();
@@ -135,14 +134,12 @@ public class FinalProjectWeatherApp
             .header("Content-Type", "application/json")
             .build();
 
-        // Attempt request
+        // Attempt http request
         String currentWeather = "";
         try
         {
             HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
             //System.out.println(response.statusCode());
-            //System.out.println(response.body());
-
             currentWeather = response.body();
         }
         catch(Exception error){
