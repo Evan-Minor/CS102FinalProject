@@ -60,11 +60,12 @@ public class FinalProjectWeatherApp
                 System.out.print("\nEnter a location: ");
                 String location = _scanner.nextLine();
 
+                String response = getWeather(location, optionSelected);
+                System.out.println(response);
+
                 /* Current Weather */
                 if(optionSelected == 1)
                 {
-                    String response = currentWeather(location);
-                    System.out.println(response);
 
                     // results[] = parse(response)
 
@@ -117,12 +118,22 @@ public class FinalProjectWeatherApp
         }
     }
 
-    public static String currentWeather(String location) throws Exception
+    public static String getWeather(String location, int option) throws Exception
     {
         String apiKey = "&APPID=238800e84194ea5fd444c1a1d82b9fe8";
         String apiBaseUrl = "https://api.openweathermap.org/data/2.5";
+        
+        // Assign endpoint based on choice
+        String apiEndpointUrl = null;
+        if(option == 1)
+        {
+            apiEndpointUrl = "/weather";
+        }
+        else if(option == 2)
+        {
+            apiEndpointUrl = "/forecast";
+        }
 
-        String apiEndpointUrl = "/weather";
         // Encode query for proper URL format
         String query = "?q=" + URLEncoder.encode((location), "UTF-8"); 
         String requestUrlFull = apiBaseUrl + apiEndpointUrl + query + apiKey;
@@ -135,17 +146,17 @@ public class FinalProjectWeatherApp
             .build();
 
         // Attempt http request
-        String currentWeather = "";
+        String weatherString = "";
         try
         {
             HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
             //System.out.println(response.statusCode());
-            currentWeather = response.body();
+            weatherString = response.body();
         }
         catch(Exception error){
             System.out.println("Request failed. Please try again later.");
         }
 
-        return currentWeather;
+        return weatherString;
     }
 }
