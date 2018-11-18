@@ -1,5 +1,21 @@
+/*  CS102 Final Project - WeatherApp
+*   
+*   PROGRAMMERS: Evan Minor and Joshua Eli Swick
+*   CLASS: CS102
+*   ASSIGNMENT: Final Project
+*   INSTRUCTOR: Chris Harris
+*   SUBMISSION DATE: ???
+*
+*   DESCRIPTION:
+*   Basic weather application that leverages OpenWeatherMap API: https://openweathermap.org/api
+*
+*   COPYRIGHT:
+*   This program is copyright (c) 2018 Evan Minor, Joshua Swick and Chris Harris.
+*   This is original work, without use of outside sources.
+*/
+
 import java.net.*;
-import java.net.http.HttpClient; //https://openjdk.java.net/groups/net/httpclient/intro.html
+import java.net.http.HttpClient; // https://openjdk.java.net/groups/net/httpclient/intro.html
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.*;
