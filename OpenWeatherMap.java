@@ -62,8 +62,14 @@ public class OpenWeatherMap
             HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
             //System.out.println(response.statusCode());
             weatherString = response.body();
+
+            if(response.statusCode() == 404)
+            {
+                System.out.println("\nCity not recognized. Please try again.");
+            }
         }
-        catch(Exception error){
+        catch(Exception error)
+        {
             System.out.println("Request failed. Please try again later.");
         }
 
