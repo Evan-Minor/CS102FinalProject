@@ -14,12 +14,17 @@
 *   This is original work, without use of outside sources.
 */
 
+// HTTP Dependencies
 import java.net.*;
 import java.net.http.HttpClient; // https://openjdk.java.net/groups/net/httpclient/intro.html
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.*;
 import java.net.URLEncoder;
+
+// XML Parser
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
 
 public class OpenWeatherMap
 {
@@ -40,8 +45,8 @@ public class OpenWeatherMap
         }
 
         // Encode query for proper URL format
-        String query = "?q=" + URLEncoder.encode((location), "UTF-8"); 
-        String requestUrlFull = apiBaseUrl + apiEndpointUrl + query + apiKey;
+        String query = "?q=" + URLEncoder.encode((location), "UTF-8");
+        String requestUrlFull = apiBaseUrl + apiEndpointUrl + query + apiKey + "&mode=xml";
 
         // Create HTTP client and build request
         HttpClient client = HttpClient.newHttpClient();
@@ -63,5 +68,14 @@ public class OpenWeatherMap
         }
 
         return weatherString;
+    }
+
+    public static String[] parseWeather(String getWeatherResponse) throws Exception
+    {
+        String[] weatherArray = new String[10];
+        //JsonParser parser = Json.createParser()
+
+
+        return weatherArray;
     }
 }
