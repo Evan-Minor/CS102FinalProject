@@ -14,6 +14,8 @@
 *   This is original work, without use of outside sources.
 */
 
+import java.util.*;
+
 // HTTP Dependencies
 import java.net.*;
 import java.net.http.HttpClient; // https://openjdk.java.net/groups/net/httpclient/intro.html
@@ -22,9 +24,7 @@ import java.net.http.HttpResponse;
 import java.net.http.HttpResponse.*;
 import java.net.URLEncoder;
 
-// XML Parser
-import javax.xml.parsers.DocumentBuilder;
-import javax.xml.parsers.DocumentBuilderFactory;
+// JSON Dependencies ?
 
 public class OpenWeatherMap
 {
@@ -46,7 +46,7 @@ public class OpenWeatherMap
 
         // Encode query for proper URL format
         String query = "?q=" + URLEncoder.encode((location), "UTF-8");
-        String requestUrlFull = apiBaseUrl + apiEndpointUrl + query + apiKey + "&mode=xml";
+        String requestUrlFull = apiBaseUrl + apiEndpointUrl + query + apiKey;
 
         // Create HTTP client and build request
         HttpClient client = HttpClient.newHttpClient();
@@ -76,12 +76,21 @@ public class OpenWeatherMap
         return weatherString;
     }
 
-    public static String[] parseWeather(String getWeatherResponse) throws Exception
+    public static String parseWeather(String getWeatherResponse, int optionSelected) throws Exception
     {
-        String[] weatherArray = new String[10];
-        //JsonParser parser = Json.createParser()
+        ArrayList<String> weatherArray = new ArrayList<String>();
 
+        if(optionSelected == 1)
+        {
 
-        return weatherArray;
+        }
+        else if(optionSelected == 2)
+        {
+
+        }
+
+        String weatherResults = String.join(",", weatherArray);
+
+        return weatherResults;
     }
 }

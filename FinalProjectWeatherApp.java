@@ -59,8 +59,7 @@ public class FinalProjectWeatherApp
                 /* Current Weather */
                 if(optionSelected == 1)
                 {
-
-                    // results[] = parse(response)
+                    String weatherResults = OpenWeatherMap.parseWeather(response, optionSelected);
 
                     // // Format and print results
                     // for(result in results[])
@@ -76,9 +75,10 @@ public class FinalProjectWeatherApp
                 /* 5 Day Forecast */
                 else if(optionSelected == 2)
                 {
-                    //String response = forecast(location);
 
-                    // results[][] = parse(response)
+                    String weatherResults = OpenWeatherMap.parseWeather(response, optionSelected);
+                    List<String> weatherArray = 
+                        new ArrayList<String>(Arrays.asList(weatherResults.split(",")));
 
                     // // Format and print results
                     // for(int r = 0; r in results[][])
