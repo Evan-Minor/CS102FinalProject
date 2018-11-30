@@ -17,14 +17,11 @@
 import java.util.*;
 
 // HTTP Dependencies
-import java.net.*;
-import java.net.http.HttpClient; // https://openjdk.java.net/groups/net/httpclient/intro.html
-import java.net.http.HttpRequest;
-import java.net.http.HttpResponse;
-import java.net.http.HttpResponse.*;
+import java.net.HttpURLConnection;
 import java.net.URLEncoder;
 
-// JSON Dependencies ?
+// JSON Dependencies
+import com.google.code.gson;
 
 public class OpenWeatherMap
 {
@@ -49,19 +46,17 @@ public class OpenWeatherMap
         String requestUrlFull = apiBaseUrl + apiEndpointUrl + query + apiKey;
 
         // Create HTTP client and build request
-        HttpClient client = HttpClient.newHttpClient();
-        HttpRequest request = HttpRequest.newBuilder()
-            .uri(URI.create(requestUrlFull))
-            .header("Content-Type", "application/json")
-            .build();
+        URLConnection connection = new URL(requestUrlFull).openConnection();
+        connection.setRequestProperty("Accept-Charset", "UTF-8");
 
         // Attempt http request
-        String weatherString = "";
+        String responseBody = "";
         try
         {
-            HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-            //System.out.println(response.statusCode());
-            weatherString = response.body();
+            InputStream response = connection.getInputStream;
+            Scanner _scanner = new Scanner(response)
+            String responseBody = scanner.useDelimiter("\\A").next();
+            System.out.println(responseBody);
 
             if(response.statusCode() == 404)
             {
@@ -73,7 +68,7 @@ public class OpenWeatherMap
             System.out.println("Request failed. Please try again later.");
         }
 
-        return weatherString;
+        return responsebody;
     }
 
     public static String parseWeather(String getWeatherResponse, int optionSelected) throws Exception
