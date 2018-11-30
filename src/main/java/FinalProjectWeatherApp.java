@@ -50,10 +50,28 @@ public class FinalProjectWeatherApp
             // If current weather or forecast selected, prompt for location
             if(optionSelected == 1 || optionSelected == 2)
             {
-                System.out.print("\nEnter a location: ");
-                String location = _scanner.nextLine();
 
-                String response = OpenWeatherMap.getWeather(location, optionSelected);
+                /* Prompt for location */
+                System.out.print("\nEnter a location (City or Zip Code): ");
+                String location = _scanner.nextLine();
+                String firstChar = Character.toString(location.charAt(0));
+                String locationType = "";
+
+                if(location.length() == 5 && firstChar.matches("[0-9]"))
+                {
+                    // Zip Code
+
+                    locationType = "Zip";
+                }
+                else
+                {
+                    // City, Country Code
+
+                    locationType = "City";
+                }
+
+                /* Make API request using OpenWeatherMap class */
+                String response = OpenWeatherMap.getWeather(optionSelected, locationType, location);
                 System.out.println(response);
 
                 /* Current Weather */

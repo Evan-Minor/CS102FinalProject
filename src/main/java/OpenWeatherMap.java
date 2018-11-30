@@ -24,18 +24,18 @@ import com.google.gson.*;
 
 public class OpenWeatherMap
 {
-    public static String getWeather(String location, int option) throws Exception
+    public static String getWeather(int optionSelected, String locationType, String location) throws Exception
     {
         String apiKey = "&APPID=238800e84194ea5fd444c1a1d82b9fe8";
         String apiBaseUrl = "https://api.openweathermap.org/data/2.5";
         
         // Assign endpoint based on choice
         String apiEndpointUrl = null;
-        if(option == 1)
+        if(optionSelected == 1)
         {
             apiEndpointUrl = "/weather";
         }
-        else if(option == 2)
+        else if(optionSelected == 2)
         {
             apiEndpointUrl = "/forecast";
         }
@@ -75,11 +75,11 @@ public class OpenWeatherMap
     {
         ArrayList<String> weatherArray = new ArrayList<String>();
 
-        if(optionSelected == 1)
+        if(optionSelected == 1) // Current weather
         {
 
         }
-        else if(optionSelected == 2)
+        else if(optionSelected == 2) // 5 Day Forecast
         {
 
         }
