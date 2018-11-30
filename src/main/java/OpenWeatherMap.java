@@ -20,15 +20,20 @@
 import java.util.*;
 import java.io.*;
 import java.net.*;
-//import java.net.URLEncoder;
-
-// JSON Dependencies
-import com.google.gson.*;
+import com.google.gson.*; // JSON Parser
 
 public class OpenWeatherMap
 {
+
     public static String getWeather(int optionSelected, String locationType, String location) throws Exception
     {
+        /*
+        *   .getWeather(int optionSelected, String locationType, String location)
+        *
+        *   Makes an HTTP request to OpenWeatherMap.com's API based on method arguments.
+        *   Returns a JSON object as a string.
+        *
+        */
         String apiKey = "&APPID=238800e84194ea5fd444c1a1d82b9fe8";
         String apiBaseUrl = "https://api.openweathermap.org/data/2.5";
         
@@ -47,7 +52,7 @@ public class OpenWeatherMap
         String query = "?q=" + URLEncoder.encode((location), "UTF-8");
         String requestUrlFull = apiBaseUrl + apiEndpointUrl + query + apiKey;
 
-        // Create HTTP client and build request
+        // Create HTTP connection
         URL url = new URL(requestUrlFull);
         HttpURLConnection connection = (HttpURLConnection)url.openConnection();
         connection.setRequestMethod("GET");
@@ -74,8 +79,15 @@ public class OpenWeatherMap
         return responseBody;
     }
 
-    public static String parseWeather(String getWeatherResponse, int optionSelected) throws Exception
+    public static String parseWeather(String responseBody, int optionSelected) throws Exception
     {
+        /*
+        *   .parseWeather(String getWeatherResponse, int optionSelected)
+        *
+        *   Makes an HTTP request to OpenWeatherMap.com's API based on method arguments.
+        *   Returns a JSON object as a string.
+        *
+        */
         ArrayList<String> weatherArray = new ArrayList<String>();
 
         if(optionSelected == 1) // Current weather
