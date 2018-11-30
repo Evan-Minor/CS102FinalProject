@@ -84,12 +84,13 @@ public class OpenWeatherMap
         /*
         *   .parseWeather(String getWeatherResponse, int optionSelected)
         *
-        *   Makes an HTTP request to OpenWeatherMap.com's API based on method arguments.
-        *   Returns a JSON object as a string.
+        *   Parses given responseBody JSON based on optionSelected.
+        *   Returns an arrayList of data as a string.
         *
         */
-        ArrayList<String> weatherArray = new ArrayList<String>();
+        ArrayList<String> weatherArray = new ArrayList<String>(); // Empty arrayList
 
+        JsonElement jsonElement = new JsonParser().parse(responseBody);
         if(optionSelected == 1) // Current weather
         {
 
