@@ -51,11 +51,11 @@ public class OpenWeatherMap
         String queryType = null;
         if (locationType.equals("Zip"))
         {
-            // Zip Code
-            queryType = "zip=";
-        } else {
-            // Default to city
-            queryType = "q=";
+            queryType = "zip="; // Zip Code
+        }
+        else 
+        {
+            queryType = "q="; // Default to city
         }
 
         // Encode query for proper URL format
