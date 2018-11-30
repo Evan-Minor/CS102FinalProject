@@ -12,5 +12,5 @@ Development Environment Setup For Evan
 
 To Test Changes To Your Code
 1. From the command line, run "gradlew.bat build"
-2. Uzip the build/distributions/CS102FinalProject.zip
+2. Unzip the build/distributions/CS102FinalProject.zip
 3. Run the CS102/FinalProject/bin/CS102FinalProject.bat
