@@ -4,7 +4,7 @@
 *   CLASS: CS102
 *   ASSIGNMENT: Final Project
 *   INSTRUCTOR: Chris Harris
-*   SUBMISSION DATE: ???
+*   SUBMISSION DATE: 2018/12/02
 *
 *   DESCRIPTION:
 *   Basic weather application that leverages OpenWeatherMap API: https://openweathermap.org/api
@@ -22,17 +22,12 @@ public class FinalProjectWeatherApp
 {
     public static void main(String[] args) throws Exception
     {
-        // Welcome user
+        /* Welcome user */
         System.out.println("\nWelcome to Evan and Eli's Weather App!");
-
-        // Inititalize Scanner
-        Scanner _scanner = new Scanner(System.in);
-
-        // User Interface Loop
+        Scanner _scanner = new Scanner(System.in); // Inititalize Scanner
         while(true)
         {
-
-            // Display options and prompt for input
+            /* Display --MENU-- */
             System.out.println(); // Empty line for formatting
             System.out.println("--MENU--");
             String[] optionsMenu = {"1. Current Weather", "2. 5 Day Forecast", "3. Exit"};
@@ -46,20 +41,35 @@ public class FinalProjectWeatherApp
             int optionIndex = optionSelected - 1;
             _scanner.nextLine(); // Consume the rest of the line
 
-            
-            // If current weather or forecast selected, prompt for location
-            if(optionSelected == 1 || optionSelected == 2)
+            if(optionSelected == 1 || optionSelected == 2) // If current weather or forecast selected
             {
-                System.out.print("\nEnter a location: ");
+                /* Prompt for location */
+                System.out.print("\nEnter a location (City or Zip Code): ");
                 String location = _scanner.nextLine();
+                String firstChar = Character.toString(location.charAt(0));
+                String locationType = "";
 
-                String response = OpenWeatherMap.getWeather(location, optionSelected);
-                System.out.println(response);
+                if(location.length() == 5 && firstChar.matches("[0-9]"))
+                {
+                    // Zip Code
 
-                /* Current Weather */
+                    locationType = "Zip";
+                }
+                else
+                {
+                    // City, Country Code
+
+                    locationType = "City";
+                }
+
+                /* Make API request */
+                String responseBody = OpenWeatherMap.getWeather(optionSelected, locationType, location);
+                System.out.println(responseBody);
+
+                /* Current Weather Response */
                 if(optionSelected == 1)
                 {
-                    String weatherResults = OpenWeatherMap.parseWeather(response, optionSelected);
+                    String weatherResults = OpenWeatherMap.parseWeather(responseBody, optionSelected);
 
                     // // Format and print results
                     // for(result in results[])
@@ -72,11 +82,10 @@ public class FinalProjectWeatherApp
                     //         file.print(result)
                 }
 
-                /* 5 Day Forecast */
+                /* 5 Day Forecast Response */
                 else if(optionSelected == 2)
                 {
-
-                    String weatherResults = OpenWeatherMap.parseWeather(response, optionSelected);
+                    String weatherResults = OpenWeatherMap.parseWeather(responseBody, optionSelected);
                     List<String> weatherArray = 
                         new ArrayList<String>(Arrays.asList(weatherResults.split(",")));
 
@@ -97,13 +106,13 @@ public class FinalProjectWeatherApp
                 }
             }
 
-            // Exit option
+            /* Exit option */
             else if(optionSelected == 3)
             {
                 System.exit(0);
             }
 
-            // Bad input
+            /* Bad input */
             else
             {
                 System.out.println("\nBad input, please try again.");
