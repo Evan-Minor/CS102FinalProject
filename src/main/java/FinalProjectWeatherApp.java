@@ -85,8 +85,7 @@ public class FinalProjectWeatherApp
                 /* 5 Day Forecast Response */
                 else if(optionSelected == 2)
                 {
-
-                    String weatherResults = OpenWeatherMap.parseWeather(responseBody), optionSelected);
+                    String weatherResults = OpenWeatherMap.parseWeather(responseBody, optionSelected);
                     List<String> weatherArray = 
                         new ArrayList<String>(Arrays.asList(weatherResults.split(",")));
 

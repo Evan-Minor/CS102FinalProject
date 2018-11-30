@@ -79,7 +79,7 @@ public class OpenWeatherMap
         return responseBody;
     }
 
-    public static String parseWeather(String responseBody, int optionSelected) throws Exception
+    public static String parseWeather(String responseBody, int optionSelected)
     {
         /*
         *   .parseWeather(String getWeatherResponse, int optionSelected)
@@ -90,10 +90,14 @@ public class OpenWeatherMap
         */
         ArrayList<String> weatherArray = new ArrayList<String>(); // Empty arrayList
 
-        JsonElement jsonElement = new JsonParser().parse(responseBody);
+        JsonParser _jsonParser = new JsonParser();
+        JsonElement jsonTree = _jsonParser.parse(responseBody);
+
         if(optionSelected == 1) // Current weather
         {
-
+            JsonElement temperatureCurrentElement = jsonTree.getAsJsonObject().get("main").getAsJsonObject().get("temp");
+            String temperatureCurrent = temperatureCurrentElement.toString();
+            System.out.println("\nCurrent Temp (kelvin): "+temperatureCurrent);
         }
         else if(optionSelected == 2) // 5 Day Forecast
         {
