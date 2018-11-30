@@ -23,13 +23,23 @@ public class FinalProjectWeatherApp
     public static void main(String[] args) throws Exception
     {
         /* Welcome user */
-        System.out.println("\nWelcome to Evan and Eli's Weather App!");
+        System.out.println("\n Welcome to Evan and Eli's Weather App!");
+        System.out.println("              .-~~~-.");
+        System.out.println("      .- ~ ~-(       )_ _");
+        System.out.println("     /                    \\- ~ .");
+        System.out.println("    |                           \\");
+        System.out.println("     \\                         ./");
+        System.out.println("       ~- . _____________ . - /");
+        System.out.println("          |       |   |      | ");
+        System.out.println("              |     |     |");
+
         Scanner _scanner = new Scanner(System.in); // Inititalize Scanner
+
         while(true)
         {
             /* Display --MENU-- */
             System.out.println(); // Empty line for formatting
-            System.out.println("--MENU--");
+            System.out.println("    --MENU--");
             String[] optionsMenu = {"1. Current Weather", "2. 5 Day Forecast", "3. Exit"};
             for(int i = 0; i < optionsMenu.length; i++)
             {
@@ -38,7 +48,6 @@ public class FinalProjectWeatherApp
             }
             System.out.print("\nPlease enter a number associated with the options above: ");
             int optionSelected = _scanner.nextInt();
-            int optionIndex = optionSelected - 1;
             _scanner.nextLine(); // Consume the rest of the line
 
             if(optionSelected == 1 || optionSelected == 2) // If current weather or forecast selected
@@ -107,6 +116,7 @@ public class FinalProjectWeatherApp
             /* Exit option */
             else if(optionSelected == 3)
             {
+                _scanner.close();
                 System.exit(0);
             }
 
