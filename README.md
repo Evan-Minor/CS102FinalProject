@@ -11,7 +11,6 @@ Development Environment Setup For Evan
 2. Click on ./gradlew.bat
 
 To Test Changes To Your Code
-1. From the command line, run "gradle build"
-2. The "main" class "FinalProjectWeatherApp.class" can be found in
-    ./build/classes/java/main/
-3. Run "java FinalProjectWeatherApp"
+1. From the command line, run "gradlew.bat build"
+2. Uzip the build/distributions/CS102FinalProject.zip
+3. Run the CS102/FinalProject/bin/CS102FinalProject.bat
