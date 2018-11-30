@@ -4,10 +4,13 @@
 *   CLASS: CS102
 *   ASSIGNMENT: Final Project
 *   INSTRUCTOR: Chris Harris
-*   SUBMISSION DATE: ???
+*   SUBMISSION DATE: 2018/12/02
 *
 *   DESCRIPTION:
 *   Basic weather application that leverages OpenWeatherMap API: https://openweathermap.org/api
+*
+*   EXTERNAL PACKAGES:
+*   https://github.com/google/gson
 *
 *   COPYRIGHT:
 *   This program is copyright (c) 2018 Evan Minor, Joshua Swick and Chris Harris.
