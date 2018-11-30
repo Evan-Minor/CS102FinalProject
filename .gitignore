@@ -1,4 +1,3 @@
-*.class
-.gradle/*
-build/*
+.gradle
+/build/
 
