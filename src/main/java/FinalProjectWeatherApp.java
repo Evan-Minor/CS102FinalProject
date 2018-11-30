@@ -52,13 +52,11 @@ public class FinalProjectWeatherApp
                 if(location.length() == 5 && firstChar.matches("[0-9]"))
                 {
                     // Zip Code
-
                     locationType = "Zip";
                 }
                 else
                 {
                     // City, Country Code
-
                     locationType = "City";
                 }
 

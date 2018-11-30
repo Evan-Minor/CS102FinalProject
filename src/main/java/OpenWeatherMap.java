@@ -47,9 +47,19 @@ public class OpenWeatherMap
         {
             apiEndpointUrl = "/forecast";
         }
+        // Query string based on Zip Code or City input
+        String queryType = null;
+        if (locationType.equals("Zip"))
+        {
+            // Zip Code
+            queryType = "zip=";
+        } else {
+            // Default to city
+            queryType = "q=";
+        }
 
         // Encode query for proper URL format
-        String query = "?q=" + URLEncoder.encode((location), "UTF-8");
+        String query = "?"+ queryType + URLEncoder.encode((location), "UTF-8");
         String requestUrlFull = apiBaseUrl + apiEndpointUrl + query + apiKey;
 
         // Create HTTP connection
