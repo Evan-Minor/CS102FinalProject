@@ -15,13 +15,12 @@
 */
 
 import java.util.*;
-
-// HTTP Dependencies
-import java.net.HttpURLConnection;
-import java.net.URLEncoder;
+import java.io.*;
+import java.net.*;
+//import java.net.URLEncoder;
 
 // JSON Dependencies
-import com.google.code.gson;
+import com.google.gson.*;
 
 public class OpenWeatherMap
 {
@@ -46,19 +45,20 @@ public class OpenWeatherMap
         String requestUrlFull = apiBaseUrl + apiEndpointUrl + query + apiKey;
 
         // Create HTTP client and build request
-        URLConnection connection = new URL(requestUrlFull).openConnection();
+        URL url = new URL(requestUrlFull);
+        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+        connection.setRequestMethod("GET");
         connection.setRequestProperty("Accept-Charset", "UTF-8");
 
         // Attempt http request
         String responseBody = "";
         try
         {
-            InputStream response = connection.getInputStream;
-            Scanner _scanner = new Scanner(response)
-            String responseBody = scanner.useDelimiter("\\A").next();
-            System.out.println(responseBody);
+            InputStream response = connection.getInputStream();
+            Scanner _scanner = new Scanner(response);
+            responseBody = _scanner.useDelimiter("\\A").next();
 
-            if(response.statusCode() == 404)
+            if(connection.getResponseCode() == 404)
             {
                 System.out.println("\nCity not recognized. Please try again.");
             }
@@ -68,7 +68,7 @@ public class OpenWeatherMap
             System.out.println("Request failed. Please try again later.");
         }
 
-        return responsebody;
+        return responseBody;
     }
 
     public static String parseWeather(String getWeatherResponse, int optionSelected) throws Exception
