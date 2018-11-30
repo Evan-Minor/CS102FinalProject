@@ -70,6 +70,8 @@ public class OpenWeatherMap
             {
                 System.out.println("\nCity not recognized. Please try again.");
             }
+
+            _scanner.close();
         }
         catch(Exception error)
         {
