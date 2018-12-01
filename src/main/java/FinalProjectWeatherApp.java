@@ -62,7 +62,7 @@ public class FinalProjectWeatherApp
             if(optionSelected == 1 || optionSelected == 2) // If current weather or forecast selected
             {
                 /* Prompt for location */
-                System.out.print("\nEnter a location (City or Zip Code): ");
+                System.out.print("\nEnter a location (U.S. City or Zip Code): ");
                 String location = _scanner.nextLine();
                 String firstChar = Character.toString(location.charAt(0));
                 String locationType = "";
