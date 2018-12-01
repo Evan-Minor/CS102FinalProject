@@ -62,30 +62,23 @@ public class OpenWeatherMap
         String query = "?"+ queryType + URLEncoder.encode((location), "UTF-8");
         String requestUrlFull = apiBaseUrl + apiEndpointUrl + query + apiKey;
 
-        // Create HTTP connection
-        URL url = new URL(requestUrlFull);
-        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-        connection.setRequestMethod("GET");
-        connection.setRequestProperty("Accept-Charset", "UTF-8");
-
         // Attempt http request
         String responseBody = "";
         try
         {
+            URL url = new URL(requestUrlFull);
+            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept-Charset", "UTF-8");
+            
             InputStream response = connection.getInputStream();
             Scanner _scanner = new Scanner(response);
             responseBody = _scanner.useDelimiter("\\A").next();
-
-            if(connection.getResponseCode() == 404)
-            {
-                System.out.println("\nCity not recognized. Please try again.");
-            }
-
             _scanner.close();
         }
         catch(Exception error)
         {
-            System.out.println("Request failed. Please try again later.");
+            System.out.println("\nRequest failed. Please try again.");
         }
 
         return responseBody;

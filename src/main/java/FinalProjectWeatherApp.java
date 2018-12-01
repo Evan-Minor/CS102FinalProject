@@ -83,7 +83,7 @@ public class FinalProjectWeatherApp
                 System.out.println(responseBody);
 
                 /* Current Weather Response */
-                if(optionSelected == 1)
+                if(optionSelected == 1 && responseBody != "")
                 {
                     String weatherResults = OpenWeatherMap.parseWeather(responseBody, optionSelected);
 
@@ -99,7 +99,7 @@ public class FinalProjectWeatherApp
                 }
 
                 /* 5 Day Forecast Response */
-                else if(optionSelected == 2)
+                else if(optionSelected == 2 && responseBody != "")
                 {
                     String weatherResults = OpenWeatherMap.parseWeather(responseBody, optionSelected);
                     List<String> weatherArray = 
