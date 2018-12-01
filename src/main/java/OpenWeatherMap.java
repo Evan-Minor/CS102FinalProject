@@ -47,9 +47,19 @@ public class OpenWeatherMap
         {
             apiEndpointUrl = "/forecast";
         }
+        // Query string based on Zip Code or City input
+        String queryType = null;
+        if (locationType.equals("Zip"))
+        {
+            queryType = "zip="; // Zip Code
+        }
+        else 
+        {
+            queryType = "q="; // Default to city
+        }
 
         // Encode query for proper URL format
-        String query = "?q=" + URLEncoder.encode((location), "UTF-8");
+        String query = "?"+ queryType + URLEncoder.encode((location), "UTF-8");
         String requestUrlFull = apiBaseUrl + apiEndpointUrl + query + apiKey;
 
         // Create HTTP connection
@@ -70,6 +80,8 @@ public class OpenWeatherMap
             {
                 System.out.println("\nCity not recognized. Please try again.");
             }
+
+            _scanner.close();
         }
         catch(Exception error)
         {
