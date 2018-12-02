@@ -20,7 +20,6 @@
 import java.util.*;
 import java.io.*;
 import java.net.*;
-import com.google.gson.*; // JSON Parser
 
 public class OpenWeatherMap
 {
@@ -62,62 +61,25 @@ public class OpenWeatherMap
         String query = "?"+ queryType + URLEncoder.encode((location), "UTF-8");
         String requestUrlFull = apiBaseUrl + apiEndpointUrl + query + apiKey;
 
-        // Create HTTP connection
-        URL url = new URL(requestUrlFull);
-        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-        connection.setRequestMethod("GET");
-        connection.setRequestProperty("Accept-Charset", "UTF-8");
-
         // Attempt http request
         String responseBody = "";
         try
         {
+            URL url = new URL(requestUrlFull);
+            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept-Charset", "UTF-8");
+            
             InputStream response = connection.getInputStream();
             Scanner _scanner = new Scanner(response);
             responseBody = _scanner.useDelimiter("\\A").next();
-
-            if(connection.getResponseCode() == 404)
-            {
-                System.out.println("\nCity not recognized. Please try again.");
-            }
-
             _scanner.close();
         }
         catch(Exception error)
         {
-            System.out.println("Request failed. Please try again later.");
+            System.out.println("\nRequest failed. Please try again.");
         }
 
         return responseBody;
-    }
-
-    public static String parseWeather(String responseBody, int optionSelected)
-    {
-        /*
-        *   .parseWeather(String getWeatherResponse, int optionSelected)
-        *
-        *   Parses given responseBody JSON based on optionSelected.
-        *   Returns an arrayList of data as a string.
-        *
-        */
-        ArrayList<String> weatherArray = new ArrayList<String>(); // Empty arrayList
-
-        JsonParser _jsonParser = new JsonParser();
-        JsonElement jsonTree = _jsonParser.parse(responseBody);
-
-        if(optionSelected == 1) // Current weather
-        {
-            JsonElement temperatureCurrentElement = jsonTree.getAsJsonObject().get("main").getAsJsonObject().get("temp");
-            String temperatureCurrent = temperatureCurrentElement.toString();
-            System.out.println("\nCurrent Temp (kelvin): "+temperatureCurrent);
-        }
-        else if(optionSelected == 2) // 5 Day Forecast
-        {
-
-        }
-
-        String weatherResults = String.join(",", weatherArray);
-
-        return weatherResults;
     }
 }

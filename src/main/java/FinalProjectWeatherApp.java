@@ -14,9 +14,10 @@
 *   This is original work, without use of outside sources.
 */
 
-// Standard API
 import java.util.*;
 import java.io.*;
+import java.text.*;
+import com.google.gson.*; // JSON Parser
 
 public class FinalProjectWeatherApp
 {
@@ -24,36 +25,47 @@ public class FinalProjectWeatherApp
     {
         /* Welcome user */
         System.out.println("\n Welcome to Evan and Eli's Weather App!");
-        System.out.println("              .-~~~-.");
-        System.out.println("      .- ~ ~-(       )_ _");
-        System.out.println("     /                    \\- ~ .");
-        System.out.println("    |                           \\");
-        System.out.println("     \\                         ./");
-        System.out.println("       ~- . _____________ . - /");
-        System.out.println("          |       |   |      | ");
-        System.out.println("              |     |     |");
+        System.out.println();
+        System.out.println("                 ,~``````~,             ");
+        System.out.println("               ,`          `,           ");
+        System.out.println("      .~```~. /              \\         ");
+        System.out.println("     /       `                \\,```.   ");
+        System.out.println("    ._______________________________\\  ");
+        System.out.println("          |       |   |      |   |      ");
+        System.out.println("              |     |     |        |    ");
+        System.out.println("       |    |     |     |      |        ");
 
         Scanner _scanner = new Scanner(System.in); // Inititalize Scanner
 
         while(true)
         {
-            /* Display --MENU-- */
+            /* Display Menu */
             System.out.println(); // Empty line for formatting
-            System.out.println("    --MENU--");
-            String[] optionsMenu = {"1. Current Weather", "2. 5 Day Forecast", "3. Exit"};
+            System.out.println();
+            System.out.println("---------------------");
+            String[] optionsMenu = {" 1. Current Weather", " 2. 5 Day Forecast", " 3. Exit"};
             for(int i = 0; i < optionsMenu.length; i++)
             {
                 String option = optionsMenu[i];
                 System.out.println(option);
             }
-            System.out.print("\nPlease enter a number associated with the options above: ");
-            int optionSelected = _scanner.nextInt();
-            _scanner.nextLine(); // Consume the rest of the line
+            System.out.println("---------------------");
+            System.out.print("\n Please enter a number associated with the options above: ");
+            String optionSelectedString = _scanner.nextLine();
+            int optionSelected = 0;
+            try
+            {
+                optionSelected = Integer.parseInt(optionSelectedString);
+            }
+            catch (Exception error)
+            {
+                optionSelected = 0; // Set to bad input
+            }
 
             if(optionSelected == 1 || optionSelected == 2) // If current weather or forecast selected
             {
                 /* Prompt for location */
-                System.out.print("\nEnter a location (City or Zip Code): ");
+                System.out.print("\n Enter a location (U.S. City or Zip Code): ");
                 String location = _scanner.nextLine();
                 String firstChar = Character.toString(location.charAt(0));
                 String locationType = "";
@@ -71,36 +83,104 @@ public class FinalProjectWeatherApp
 
                 /* Make API request */
                 String responseBody = OpenWeatherMap.getWeather(optionSelected, locationType, location);
-                System.out.println(responseBody);
+
+                JsonParser _jsonParser = new JsonParser();
+                JsonElement jsonTree = _jsonParser.parse(responseBody);
 
                 /* Current Weather Response */
-                if(optionSelected == 1)
+                if(optionSelected == 1 && responseBody != "")
                 {
-                    String weatherResults = OpenWeatherMap.parseWeather(responseBody, optionSelected);
+                    String currentTemperatureFahrenheit;
+                    String currentWeatherDescription;
+        
+                    // response.main.temp
+                    JsonElement temperatureCurrentElement = jsonTree.getAsJsonObject().get("main").getAsJsonObject().get("temp");
+                    double currentTemperatureKelvin = temperatureCurrentElement.getAsDouble();
+                    double currentTemperatureFahrenheitAsDouble = ((currentTemperatureKelvin - 273.15 ) * (9/5) + 32);
+                    currentTemperatureFahrenheit = Double.toString(currentTemperatureFahrenheitAsDouble).substring(0,4);
+        
+                    // response.weather[0].description
+                    JsonArray weatherCurrentElement = jsonTree.getAsJsonObject().get("weather").getAsJsonArray();
+                    JsonElement currentWeatherDescriptionElement = weatherCurrentElement.get(0).getAsJsonObject().get("description");
+                    currentWeatherDescription = currentWeatherDescriptionElement.getAsString();
 
-                    // // Format and print results
-                    // for(result in results[])
-                    //     print(result)
-
-                    // // Ask the user if they would like to print results to a file
-                    // // if the user does wish to print to a file
-                    // if yes:
-                    //     for(result in results[])
-                    //         file.print(result)
+                    // Format and print results
+                    System.out.println();
+                    System.out.println("--- Current Weather ---");
+                    System.out.println(currentTemperatureFahrenheit + " F " + currentWeatherDescription);
                 }
 
                 /* 5 Day Forecast Response */
-                else if(optionSelected == 2)
+                else if(optionSelected == 2 && responseBody != "")
                 {
-                    String weatherResults = OpenWeatherMap.parseWeather(responseBody, optionSelected);
-                    List<String> weatherArray = 
-                        new ArrayList<String>(Arrays.asList(weatherResults.split(",")));
+                    // response.list[]
+                    JsonArray listElement = jsonTree.getAsJsonObject().get("list").getAsJsonArray();
 
-                    // // Format and print results
-                    // for(int r = 0; r in results[][])
-                    // {
-                    //     System.out.println(result);
-                    // }
+                    String[][] weatherResults = new String[listElement.size()][3];
+
+                    // Parse response and insert wanted data into nested array structure
+                    for(int objectIndex = 0; objectIndex < listElement.size(); objectIndex++)
+                    {
+                        String[] weatherObject = new String[3];
+                        
+                        String dateTime; // response.list[i].dt
+                        String weatherDescription; // response.list[i].weather.description
+                        String temperatureFahrenheit; // response.list[i].main.temp_max
+
+                        // Date and Time
+                        JsonElement listObject = listElement.get(objectIndex);
+                        long dateTimeEpoc = listObject.getAsJsonObject().get("dt").getAsLong() * 1000;
+                        Date date = new Date(dateTimeEpoc);
+                        SimpleDateFormat format = new SimpleDateFormat("E MM/dd/yyyy ha z");
+                        format.setTimeZone(TimeZone.getTimeZone("MST"));
+                        dateTime = format.format(date);
+
+                        // Temperature
+                        Double temperatureKelvin = listObject.getAsJsonObject().get("main").getAsJsonObject().get("temp").getAsDouble();
+                        Double temperatureFahrenheitAsDouble = (((temperatureKelvin - 273.15 ) * (9/5)) + 32);
+                        temperatureFahrenheit = Double.toString(temperatureFahrenheitAsDouble).substring(0,4);
+
+                        // Weather Description
+                        weatherDescription = listObject.getAsJsonObject().get("weather").getAsJsonArray().get(0).getAsJsonObject().get("description").getAsString();
+                        
+                        weatherResults[objectIndex][0] = dateTime;
+                        weatherResults[objectIndex][1] = temperatureFahrenheit;
+                        weatherResults[objectIndex][2] = weatherDescription;
+                    }
+
+                    // Format and print results
+                    String yesterday = "";
+                    for(int i = 0; i < weatherResults.length; i++)
+                    {
+                        String dateTime = weatherResults[i][0];
+                        String temperatureFahrenheit = weatherResults[i][1];
+                        String weatherDescription = weatherResults[i][2];
+
+                        String date[] = dateTime.split(" ");
+                        String weekday = date[0];
+                        String dateString = date[1];
+                        String time = date[2];
+                        String timeZone = date[3];
+                        
+                        // Add 0 for formatting
+                        if(time.length() < 4)
+                        {
+                            time = " "+time;
+                        }
+
+                        if(weekday.equals(yesterday))
+                        {
+                            System.out.println(time + " " + timeZone + " " + temperatureFahrenheit + " F " + weatherDescription);
+                        }
+                        else
+                        {
+                            System.out.println();
+                            System.out.println("--- " + weekday + " " + dateString + " ---");
+                            System.out.println(time + " " + timeZone + " " + temperatureFahrenheit + " F " + weatherDescription);
+                        }
+                        yesterday = weekday;
+                    }
+
 
                     // // Ask the user if they would like to print results to a file
                     // // if the user does wish to print to a file
