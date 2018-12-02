@@ -19,9 +19,7 @@
 
 import java.util.*;
 import java.io.*;
-import java.text.*;
 import java.net.*;
-import com.google.gson.*; // JSON Parser
 
 public class OpenWeatherMap
 {
@@ -83,91 +81,5 @@ public class OpenWeatherMap
         }
 
         return responseBody;
-    }
-
-    public static String parseWeather(String responseBody, int optionSelected)
-    {
-        /*
-        *   .parseWeather(String getWeatherResponse, int optionSelected)
-        *
-        *   Parses given responseBody JSON based on optionSelected.
-        *   Returns an arrayList of data as a string.
-        *
-        */
-        ArrayList<String> weatherResultsArray = new ArrayList<String>(); // Empty arrayList
-
-        JsonParser _jsonParser = new JsonParser();
-        JsonElement jsonTree = _jsonParser.parse(responseBody);
-
-        if(optionSelected == 1) // Current weather
-        {
-            String[] weatherObject = new String[2];
-
-            String currentTemperatureFahrenheit;
-            String currentWeatherDescription;
-
-            // response.main.temp
-            JsonElement temperatureCurrentElement = jsonTree.getAsJsonObject().get("main").getAsJsonObject().get("temp");
-            double currentTemperatureKelvin = temperatureCurrentElement.getAsDouble();
-            double currentTemperatureFahrenheitAsDouble = ((currentTemperatureKelvin - 273.15 ) * (9/5) + 32);
-            currentTemperatureFahrenheit = Double.toString(currentTemperatureFahrenheitAsDouble).substring(0,5);
-
-            // response.weather[0].description
-            JsonArray weatherCurrentElement = jsonTree.getAsJsonObject().get("weather").getAsJsonArray();
-            JsonElement currentWeatherDescriptionElement = weatherCurrentElement.get(0).getAsJsonObject().get("description");
-            currentWeatherDescription = currentWeatherDescriptionElement.getAsString();
-
-            weatherObject[0] = currentWeatherDescription;
-            weatherObject[1] = currentTemperatureFahrenheit;
-            
-            String weatherObjectString = Arrays.toString(weatherObject);
-            System.out.println(weatherObjectString);
-
-            weatherResultsArray.add(weatherObjectString);
-        }
-        else if(optionSelected == 2) // 5 Day Forecast
-        {
-            // response.list[]
-            JsonArray listElement = jsonTree.getAsJsonObject().get("list").getAsJsonArray();
-
-            // list[i]
-            for (int objectIndex = 0; objectIndex < listElement.size(); objectIndex++)
-            {
-                String[] weatherObject = new String[3];
-                
-                String dateTime; // response.list[i].dt
-                String weatherDescription; // response.list[i].weather.description
-                String temperatureFahrenheit; // response.list[i].main.temp_max
-
-                // Date and Time
-                JsonElement listObject = listElement.get(objectIndex);
-                long dateTimeEpoc = listObject.getAsJsonObject().get("dt").getAsLong() * 1000;
-                Date date = new Date(dateTimeEpoc);
-                SimpleDateFormat format = new SimpleDateFormat("E MM/dd/yyyy ha z");
-                format.setTimeZone(TimeZone.getTimeZone("MST"));
-                dateTime = format.format(date);
-
-                // Temperature
-                Double temperatureKelvin = listObject.getAsJsonObject().get("main").getAsJsonObject().get("temp").getAsDouble();
-                Double temperatureFahrenheitAsDouble = (((temperatureKelvin - 273.15 ) * (9/5)) + 32);
-                temperatureFahrenheit = Double.toString(temperatureFahrenheitAsDouble).substring(0,5);
-
-                // Weather Description
-                weatherDescription = listObject.getAsJsonObject().get("weather").getAsJsonArray().get(0).getAsJsonObject().get("description").getAsString();
-                
-                weatherObject[0] = dateTime;
-                weatherObject[1] = temperatureFahrenheit;
-                weatherObject[2] = weatherDescription;
-
-                String weatherObjectString = Arrays.toString(weatherObject);
-                System.out.println(weatherObjectString);
-
-                weatherResultsArray.add(weatherObjectString);
-            }
-        }
-
-        String weatherResults = String.join(",", weatherResultsArray);
-
-        return weatherResults;
     }
 }
