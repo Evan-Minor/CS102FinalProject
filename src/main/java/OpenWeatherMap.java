@@ -20,7 +20,6 @@
 import java.util.*;
 import java.io.*;
 import java.net.*;
-import com.google.gson.*; // JSON Parser
 
 public class OpenWeatherMap
 {
@@ -47,101 +46,40 @@ public class OpenWeatherMap
         {
             apiEndpointUrl = "/forecast";
         }
+        // Query string based on Zip Code or City input
+        String queryType = null;
+        if (locationType.equals("Zip"))
+        {
+            queryType = "zip="; // Zip Code
+        }
+        else 
+        {
+            queryType = "q="; // Default to city
+        }
 
         // Encode query for proper URL format
-        String query = "?q=" + URLEncoder.encode((location), "UTF-8");
+        String query = "?"+ queryType + URLEncoder.encode((location), "UTF-8");
         String requestUrlFull = apiBaseUrl + apiEndpointUrl + query + apiKey;
-
-        // Create HTTP connection
-        URL url = new URL(requestUrlFull);
-        HttpURLConnection connection = (HttpURLConnection)url.openConnection();
-        connection.setRequestMethod("GET");
-        connection.setRequestProperty("Accept-Charset", "UTF-8");
 
         // Attempt http request
         String responseBody = "";
         try
         {
+            URL url = new URL(requestUrlFull);
+            HttpURLConnection connection = (HttpURLConnection)url.openConnection();
+            connection.setRequestMethod("GET");
+            connection.setRequestProperty("Accept-Charset", "UTF-8");
+            
             InputStream response = connection.getInputStream();
             Scanner _scanner = new Scanner(response);
             responseBody = _scanner.useDelimiter("\\A").next();
-
-            if(connection.getResponseCode() == 404)
-            {
-                System.out.println("\nCity not recognized. Please try again.");
-            }
+            _scanner.close();
         }
         catch(Exception error)
         {
-            System.out.println("Request failed. Please try again later.");
+            System.out.println("\nRequest failed. Please try again.");
         }
 
         return responseBody;
-    }
-
-    public static String parseWeather(String responseBody, int optionSelected)
-    {
-        /*
-        *   .parseWeather(String getWeatherResponse, int optionSelected)
-        *
-        *   Parses given responseBody JSON based on optionSelected.
-        *   Returns an arrayList of data as a string.
-        *
-        */
-        ArrayList<String> weatherArray = new ArrayList<String>(); // Empty arrayList
-
-        JsonParser _jsonParser = new JsonParser();
-        JsonElement jsonTree = _jsonParser.parse(responseBody);
-
-        if(optionSelected == 1) // Current weather
-        {
-
-            //Get the temp
-            JsonElement temperatureCurrentElement = jsonTree.getAsJsonObject().get("main").getAsJsonObject().get("temp");
-            String temperatureCurrentString = temperatureCurrentElement.toString(); 
-            double temperatureCurrent = Double.parseDouble(temperatureCurrentString);
-            double temp = temperatureCurrent - 273.15;
-            System.out.println("\nCurrent Temp: "+ temp + "degrees Fahrenheit.");
-
-            //Get the weather
-            JsonArray weatherCurrentElement = jsonTree.getAsJsonObject().get("weather").getAsJsonArray();
-            JsonElement weatherCurrentGet = weatherCurrentElement.get(0);
-            JsonElement weatherCurrentTest = weatherCurrentGet.getAsJsonObject().get("description");
-            String weatherCurrent = weatherCurrentTest.toString();
-            System.out.println("\nCurrent weather: " + weatherCurrent);
-
-
-        }
-        else if(optionSelected == 2) // 5 Day Forecast
-        {
-            //List data
-            JsonArray listElement = jsonTree.getAsJsonObject().get("list").getAsJsonArray();
-           for (int i = 0; i < 39; i++)
-            {
-                JsonElement listGet = listElement.get(i);
-                JsonElement listDTGet = listGet.getAsJsonObject().get("dt");
-                JsonElement listTempGet = listGet.getAsJsonObject().get("main").getAsJsonObject().get("temp_max");
-
-                //Get the weather list.
-                JsonArray listWeatherFull = listGet.getAsJsonObject().get("weather").getAsJsonArray();
-                JsonElement listWeatherIndex = listWeatherFull.get(0);
-                JsonElement listWeatherGet = listWeatherIndex.getAsJsonObject().get("description");
-
-                //Format to strings
-                String listWeather = listWeatherGet.toString();
-                String listDT = listDTGet.toString();
-                String listTempF = listTempGet.toString();
-
-                //Get the temp to Fahrenheit
-                double listTemp = Double.parseDouble(listTempF);
-                double temp = listTemp - 273.15;
-                System.out.println("\n Date Time is " + listDT + ". Temperature Max is " + temp + 
-                "degrees Fahrenheit. Expected Weather is " +listWeather + ".");
-            }
-        }
-
-        String weatherResults = String.join(",", weatherArray);
-
-        return weatherResults;
     }
 }
