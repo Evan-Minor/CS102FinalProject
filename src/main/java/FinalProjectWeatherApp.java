@@ -80,7 +80,7 @@ public class FinalProjectWeatherApp
 
                 /* Make API request */
                 String responseBody = OpenWeatherMap.getWeather(optionSelected, locationType, location);
-                System.out.println(responseBody);
+                //System.out.println(responseBody);
 
                 /* Current Weather Response */
                 if(optionSelected == 1 && responseBody != "")
@@ -101,9 +101,8 @@ public class FinalProjectWeatherApp
                 /* 5 Day Forecast Response */
                 else if(optionSelected == 2 && responseBody != "")
                 {
+                    
                     String weatherResults = OpenWeatherMap.parseWeather(responseBody, optionSelected);
-                    List<String> weatherArray = 
-                        new ArrayList<String>(Arrays.asList(weatherResults.split(",")));
 
                     // // Format and print results
                     // for(int r = 0; r in results[][])
