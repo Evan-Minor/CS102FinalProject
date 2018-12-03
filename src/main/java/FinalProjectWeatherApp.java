@@ -141,7 +141,6 @@ public class FinalProjectWeatherApp
                         input = _scanner.nextLine();
                     }
                     }
-
                 }
 
                 /* 5 Day Forecast Response */
