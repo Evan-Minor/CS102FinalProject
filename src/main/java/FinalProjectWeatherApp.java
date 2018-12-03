@@ -24,16 +24,16 @@ public class FinalProjectWeatherApp
     public static void main(String[] args) throws Exception
     {
         /* Welcome user */
-        System.out.println("\n Welcome to Evan and Eli's Weather App!");
+        System.out.println("\nWelcome to Evan and Eli's Weather App!");
         System.out.println();
-        System.out.println("                 ,~``````~,             ");
-        System.out.println("               ,`          `,           ");
-        System.out.println("      .~```~. /              \\         ");
-        System.out.println("     /       `                \\,```.   ");
-        System.out.println("    ._______________________________\\  ");
-        System.out.println("          |       |   |      |   |      ");
-        System.out.println("              |     |     |        |    ");
-        System.out.println("       |    |     |     |      |        ");
+        System.out.println("               ,~``````~,             ");
+        System.out.println("             ,`          `,           ");
+        System.out.println("    .~```~. /              \\         ");
+        System.out.println("   /       `                \\,```.   ");
+        System.out.println("  ._______________________________\\  ");
+        System.out.println("        |       |   |      |   |      ");
+        System.out.println("            |     |     |        |    ");
+        System.out.println("     |    |     |     |      |        ");
 
         Scanner _scanner = new Scanner(System.in); // Inititalize Scanner
 
@@ -50,7 +50,7 @@ public class FinalProjectWeatherApp
                 System.out.println(option);
             }
             System.out.println("---------------------");
-            System.out.print("\n Please enter a number associated with the options above: ");
+            System.out.print("\nPlease enter a number associated with the options above: ");
             String optionSelectedString = _scanner.nextLine();
             int optionSelected = 0;
             try
@@ -65,7 +65,7 @@ public class FinalProjectWeatherApp
             if(optionSelected == 1 || optionSelected == 2) // If current weather or forecast selected
             {
                 /* Prompt for location */
-                System.out.print("\n Enter a location (U.S. City or Zip Code): ");
+                System.out.print("\nEnter a location (U.S. City or Zip Code): ");
                 String location = _scanner.nextLine();
                 String firstChar = Character.toString(location.charAt(0));
                 String locationType = "";
@@ -108,38 +108,55 @@ public class FinalProjectWeatherApp
                     System.out.println();
                     System.out.println("--- Current Weather ---");
                     System.out.println(currentTemperatureFahrenheit + " F " + currentWeatherDescription);
-
-                    //print to a file
-                    System.out.println("");
-                    System.out.println("Would you like to print to a file?");
-                    System.out.println("Please select yes or no");
-                    String input = _scanner.nextLine();
-
+                    
                     while(true)
                     {
-                    if(input.equals("yes"))
-                    {
-                    System.out.println("");
-                    System.out.println("Output file name");
-                    String outputFile = _scanner.nextLine();
-
-                    PrintWriter output = new PrintWriter(outputFile);
-                    output.println("--- Current Weather ---");
-                    output.println(currentTemperatureFahrenheit + " F " + currentWeatherDescription);
-
-                    output.close();
-                    break;
-                    }
-                    else if (input.equals("no"))
-                    {
-                        break;
-                    }
-                    else
-                    {
+                        // Ask the user if they would like to print results to a file
                         System.out.println("");
-                        System.out.println("Please enter yes or no.");
-                        input = _scanner.nextLine();
-                    }
+                        System.out.print("Would you like to print the results to a file? (y)es or (n)o: ");
+                        String input = _scanner.nextLine();
+
+                        // If "yes"
+                        if (input.toLowerCase().equals("yes") || input.toLowerCase().equals("y"))
+                        {
+                            String outputFileName = "Weather_Current.txt";
+                            
+                            // Loop to ensure unique file name
+                            int fileExists = 0;
+                            while(true)
+                            {
+                                File fileOut = new File(outputFileName);
+                                if(fileOut.isFile())
+                                {
+                                    ++fileExists;
+                                    outputFileName = "Weather_Current" + "(" + fileExists + ")" + ".txt";
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            
+                            // Prep output file
+                            PrintWriter outputFile = new PrintWriter(outputFileName);
+
+                            // Print results to file
+                            outputFile.println("--- Current Weather ---");
+                            outputFile.println(currentTemperatureFahrenheit + " F " + currentWeatherDescription);
+
+                            outputFile.close();                    
+                            System.out.println("\nSuccessfully printed to file: " + outputFileName);
+                            break;
+                        }
+                        else if (input.toLowerCase().equals("no") || input.toLowerCase().equals("n"))
+                        {
+                            break;
+                        }
+                        else
+                        {
+                            System.out.println();
+                            System.out.println("Bad input. Please enter \"yes\" or \"no\".");
+                        }
                     }
                 }
 
@@ -214,70 +231,81 @@ public class FinalProjectWeatherApp
                         yesterday = weekday;
                     }
 
-                    System.out.println("");
-                    // // Ask the user if they would like to print results to a file
-                    System.out.println("Would you like to print the results to a file?");
-                    System.out.println("Please enter yes or no.");
-                    String input = _scanner.nextLine();
-                    // // if the user does wish to print to a file
-
                     while(true)
                     {
-                    if (input .equals("yes"))
-                    {
+                        // Ask the user if they would like to print results to a file
                         System.out.println("");
-                        System.out.println("Output file name");
-                        String outputFileList = _scanner.nextLine();
-                        PrintWriter outputFile = new PrintWriter(outputFileList);
-
-                       for(int i = 0; i < weatherResults.length; i++)
-                    {
-                        String dateTime = weatherResults[i][0];
-                        String temperatureFahrenheit = weatherResults[i][1];
-                        String weatherDescription = weatherResults[i][2];
-
-                        String date[] = dateTime.split(" ");
-                        String weekday = date[0];
-                        String dateString = date[1];
-                        String time = date[2];
-                        String timeZone = date[3];
+                        System.out.print("Would you like to print the results to a file? (y)es or (n)o: ");
+                        String input = _scanner.nextLine();
                         
-                        // Add 0 for formatting
-                        if(time.length() < 4)
+                        // If "yes"
+                        if (input.toLowerCase().equals("yes") || input.toLowerCase().equals("y"))
                         {
-                            time = " "+time;
-                        }
 
-                        if(weekday.equals(yesterday))
+                            String outputFileName = "Weather_Forecast.txt";
+                            
+                            // Loop to ensure unique file name
+                            int fileExists = 0;
+                            while(true)
+                            {
+                                File fileOut = new File(outputFileName);
+                                if(fileOut.isFile())
+                                {
+                                    ++fileExists;
+                                    outputFileName = "Weather_Forecast" + "(" + fileExists + ")" + ".txt";
+                                }
+                                else
+                                {
+                                    break;
+                                }
+                            }
+                            
+                            // Prep output file
+                            PrintWriter outputFile = new PrintWriter(outputFileName);
+                            for(int i = 0; i < weatherResults.length; i++)
+                            {
+                                String dateTime = weatherResults[i][0];
+                                String temperatureFahrenheit = weatherResults[i][1];
+                                String weatherDescription = weatherResults[i][2];
+
+                                String date[] = dateTime.split(" ");
+                                String weekday = date[0];
+                                String dateString = date[1];
+                                String time = date[2];
+                                String timeZone = date[3];
+                                
+                                // Add 0 for formatting
+                                if(time.length() < 4)
+                                {
+                                    time = " "+time;
+                                }
+
+                                if(weekday.equals(yesterday))
+                                {
+                                    outputFile.println(time + " " + timeZone + " " + temperatureFahrenheit + " F " + weatherDescription);
+                                }
+                                else
+                                {
+                                    outputFile.println();
+                                    outputFile.println("--- " + weekday + " " + dateString + " ---");
+                                    outputFile.println(time + " " + timeZone + " " + temperatureFahrenheit + " F " + weatherDescription);
+                                }
+                                    yesterday = weekday;
+                            }
+                            outputFile.close();
+
+                            System.out.println("\nSuccessfully printed to file: " + outputFileName);
+                            break;
+                        }
+                        else if (input.toLowerCase().equals("no") || input.toLowerCase().equals("n"))
                         {
-                            outputFile.println(time + " " + timeZone + " " + temperatureFahrenheit + " F " + weatherDescription);
+                            break;
                         }
                         else
                         {
-                            outputFile.println();
-                            outputFile.println("--- " + weekday + " " + dateString + " ---");
-                            outputFile.println(time + " " + timeZone + " " + temperatureFahrenheit + " F " + weatherDescription);
+                            System.out.println();
+                            System.out.println("Bad input. Please enter \"yes\" or \"no\".");
                         }
-                        yesterday = weekday;
-                    } 
-                        outputFile.close();
-
-                        System.out.println("");
-                        System.out.println("Successfully printed to file: " +outputFileList);
-
-                        break;
-                    }
-
-                    else if (input.equals("no"))
-                    {
-                        break;
-                    }
-                    else
-                    {
-                        System.out.println("");
-                        System.out.println("Please enter yes or no.");
-                        input = _scanner.nextLine();
-                    }
                     }
                 }
             }
