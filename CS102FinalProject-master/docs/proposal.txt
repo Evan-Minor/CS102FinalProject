@@ -1,0 +1,96 @@
+CS102 - Final Project Proposal
+
+PROGRAMMERS: Evan Minor and Joshua Swick
+CLASS: CS102
+ASSIGNMENT: Final Project - Proposal
+INSTRUCTOR: Chris Harris
+SUBMISSION DATE: 11/15/2018
+
+DESCRIPTION:
+Proposal for our final project.
+
+--
+
+a. Brief Write-Up
+
+    The purpose of this project is to create a weather application, using the OpenWeatherMap API (https://openweathermap.org/api).
+    Based on user input, this app will retrieve and display current weather data, or a five day forecast. The user will then be
+    invited to save the output to a text file.
+
+    INPUTS
+        Option of current or 5 day forecast - Ex. Current
+        Location - Ex. London, UK
+
+b. Which topic, minimum of 3
+
+    1. Nested loops
+    2. Writing to files
+    3. Arrays
+    4. Recursion for formatting
+
+c. Pseudocode
+
+FinalProjectWeatherApp:
+
+    main()
+        // Welcome user
+        print("Welcome")
+
+        // Inititalize Scanner
+        _scanner = new Scanner()
+
+        // User Interface Loop
+        while(true):
+
+            // Display options and prompt for input
+            while(true):
+                Print("Current weather, 5 day forcast, or exit")
+                option = input()
+                if(good input):
+                    break;
+
+            // If current weather or forcast prompt for location
+            Prompt for location
+            location = input()
+            
+            // Format and send http request
+            url = api/ + option
+            params = location
+            response = http.get(url,params)
+
+            // Parse response
+            // If "Current Weather" response
+            if(option = "current")
+                results[] = parse(response)
+
+                // Format and print results
+                for(result in results[])
+                    print(result)
+
+                // Ask the user if they would like to print results to a file
+                // if the user does wish to print to a file
+                if yes:
+                    for(result in results[])
+                        file.print(result)
+
+            // If "Weather Forecast" response
+            else if(option = "forecast")
+                results[][] = parse(response)
+
+                // Format and print results
+                for(result in results[][])
+                    print(result)
+
+                // Ask the user if they would like to print results to a file
+                // if the user does wish to print to a file
+                if yes:
+                    for(result in results[][])
+                        file.print(result)
+      
+            // Exit option
+            else if(option = "exit")
+                System.exit(0)
+
+            // Bad input
+            else
+                print("Bad input, please try again.")
